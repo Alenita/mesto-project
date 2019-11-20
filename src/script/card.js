@@ -1,3 +1,5 @@
+import {api} from './script.js';
+
 export class Card {
     constructor (name, link, id) {
     this.id = id;

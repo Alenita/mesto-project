@@ -2,7 +2,7 @@
 
 export class Api {
     constructor(options) {
-      this.url = options.baseUrl;
+      this.url = serverUrl;
       this.key = options.headers.authorization;
     }
     
