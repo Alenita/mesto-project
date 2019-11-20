@@ -1,161 +1,10 @@
-﻿class Card {
-    constructor (name, link, id) {
-    this.id = id;
-    this.cardElement = this.createCard(name, link);
-    this.remove = this.remove.bind(this);
-    this.cardElement.querySelector(".place-card__like-icon").addEventListener("click", this.like);
-    this.cardElement.querySelector(".place-card__delete-icon").addEventListener("click", this.remove);
-    
-  }
-
-  createCard (nameValue, linkValue) {
-    const placeCard = document.createElement("div");
-    const cardImage = document.createElement("div");
-    const deleteIcon = document.createElement("button");
-    const cardDescription = document.createElement("div");
-    const cardName = document.createElement("h3");
-    const likeContainer = document.createElement("div");
-    const likeIcon = document.createElement("button");
-    const likeAmount = document.createElement("p");
-    
-
-    placeCard.classList.add("place-card");
-    cardImage.classList.add("place-card__image");
-    cardImage.style.backgroundImage = "url(" + linkValue + ")";
-    deleteIcon.classList.add("place-card__delete-icon");
-    cardDescription.classList.add("place-card__description");
-    cardName.classList.add("place-card__name");
-    cardName.textContent = nameValue;
-    likeContainer.classList.add("place-card__like-container");
-    likeIcon.classList.add("place-card__like-icon");
-    likeAmount.classList.add("place-card__like-amount");
-    
-    placeCard.appendChild(cardImage);
-    cardImage.appendChild(deleteIcon);
-    placeCard.appendChild(cardDescription);
-    cardDescription.appendChild(cardName);
-    cardDescription.appendChild(likeContainer);
-    likeContainer.appendChild(likeIcon);
-    likeContainer.appendChild(likeAmount);
-  
-    return placeCard;
-  }
-
-  addLikes(element, likesValue) {
-    element.querySelector(".place-card__like-amount").textContent = likesValue;
-  }
-
-  like(event) {
-    event.target.classList.toggle("place-card__like-icon_liked");
-  }
-
-  remove() {
-    api.deleteMyCard(this.id);
-  }
-}
-
-class CardList {
-  constructor(container) {
-  this.container = container;
-  this.array = [];
-  }
-
-  render (element) {
-    this.container.appendChild(element);
-  }
-
-  addCard(name, link, id, likes) {
-    const card = new Card(name, link, id);
-    this.array.push(card.cardElement);  
-    this.render(card.cardElement);
-    card.addLikes(card.cardElement, likes);
-    }
-
-  /*delete(element) {
-    this.container.removeChild(element);
-  }*/
-}
+﻿import {Api} from './script/api.js';
+import {CardList} from './script/cardlist.js';
+import {Popup} from './script/popup.js';
+import {formValidityHandler} from './script/validation.js';
+import {checkForm} from './script/validation.js';
 
 
-class Api {
-  constructor(options) {
-    this.url = options.baseUrl;
-    this.key = options.headers.authorization;
-  }
-  
-  getAllInfo() {
-    return Promise.all([this.getInfo(), this.getInitialCards()]);
-  }
-
-  //подгружает данные пользователя
-  getInfo() {
-    return fetch (this.url + "/users/me", {
-      method: 'GET',
-      headers: {
-      authorization: this.key
-      }
-  })
-    .then(res => res.ok ? res.json() : Promise.reject())
-    .catch(e => console.log('Ошибка загрузки данных пользователя!'))
-  }
-
-  //подгружает карточки
-  getInitialCards() {
-    return fetch(this.url + "/cards" , {
-      method: 'GET',
-      headers: {
-      authorization: this.key
-      }
-    })
-    .then(res => res.ok ? res.json() : Promise.reject())
-    .catch(e => console.log('Ошибка загрузки карточек!'))
-  }
-  
-  //меняет информацию о пользователе
-  changeInfo(editName, editAbout) {
-    return fetch(this.url + "/users/me", {
-      method: 'PATCH',
-      headers: {
-        authorization: this.key,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        name: editName,
-        about: editAbout
-      })
-    })
-    .then(res => res.ok ? res.json() : Promise.reject())
-    .catch(e => console.log('Ошибка при изменении информации!'))
-  }
-
-  //добавляет новую карточку
-  addNewCard(cardName, cardLink) {
-    return fetch(this.url + "/cards", {
-      method: 'POST',
-      headers: {
-        authorization: this.key,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-          name: cardName,
-          link: cardLink
-      })
-    })
-    .then(res => res.ok ? res.json() : Promise.reject())
-    .catch(e => console.log('Ошибка добавления карточек!'))
-    }
-  //удаление карточки
-  deleteMyCard(id) {
-    return fetch(this.url + "/cards/"+ id, {
-      method: 'DELETE',
-      headers: {
-        authorization: this.key
-      }
-    })
-    .then(res => res.ok ? res.json() : Promise.reject())
-    .catch(e => console.log('Ошибка удаления карточек!'))
-  }
-}
 
 const api = new Api({
   baseUrl: 'http://95.216.175.5/cohort4',
@@ -165,7 +14,7 @@ const api = new Api({
   }
 });
 
-
+/*получаем данные с сервера*/ 
 api.getAllInfo()
   .then(([userInfo, cardsInfo]) => {
     
@@ -179,20 +28,6 @@ api.getAllInfo()
     editFormField(userInfo.name, userInfo.about);
   });
 
-class Popup { 
-  constructor(popup) {
-    this.popup = popup;
-    this.popup.querySelector(".popup__close").addEventListener("click", this.close);
-  }
-
-  close(event) {
-    event.target.closest(".popup").classList.remove("popup_is-opened");
-  }
-
-  open() {
-    this.popup.classList.add("popup_is-opened");
-  }
-} 
 
 const userName = document.querySelector(".user-info__name");
 const userInfo = document.querySelector(".user-info__job");
@@ -271,64 +106,13 @@ function addingCardHandler(event) {
   }
 }
 
-//валидация форм
-function formValidityHandler(event) {
-  const validator = event.target.name === "link" ? 
-  validateLink : 
-  validateText;
-  validator(event.target);
-}
-
-function checkForm(event) { 
-  event.preventDefault();
-  const inputs = Array.from(event.target.closest(".form").elements);
-  let isValidForm = true;
-  inputs.forEach(function(elem) {
-    if (!elem.querySelector('[type = submit]')) {
-      if (!elem.checkValidity()) {
-        isValidForm = false;
-        event.target.closest(".form").querySelector('.button').setAttribute("disabled", true);
-        event.target.closest(".form").querySelector('.button').classList.remove("popup__button_active");
-      }
-    }
-  })
-
-  if (isValidForm) {
-    event.target.closest(".form").querySelector('.button').removeAttribute("disabled");
-    event.target.closest(".form").querySelector('.button').classList.add("popup__button_active");
-  }
-}
-
-function validateText(inputText) {
-  let errorMessage = document.querySelector(`#error-${inputText.id}`);
-  errorMessage = "";
-  if (inputText.validity.tooShort || inputText.validity.tooLong) {
-    errorMessage = "Должно быть от 2 до 30 символов"; 
-  }
-  if (inputText.validity.valueMissing) {
-    errorMessage = "Это обязательное поле";
-  }
-inputText.nextElementSibling.textContent = errorMessage;
-}
-
-function validateLink(inputLink) {
-  let errorMessage = document.querySelector(`#error-${inputLink.id}`);
-  errorMessage = "";
-  if (inputLink.validity.valueMissing) {
-    errorMessage = "Это обязательное поле";
-  }
-  if (inputLink.validity.typeMismatch) {
-    errorMessage =  "Здесь должна быть ссылка";
-  }
-  inputLink.nextElementSibling.textContent = errorMessage;
-}
-
+/*слушатели открытия попапов*/
 document.querySelector(".user-info__button").addEventListener("click", popupHandler);
 document.querySelector(".edit__button").addEventListener("click", editPopupHandler);
-cardsContainer.addEventListener ("click", imagePopupHandler);
-  
-addCardForm.addEventListener("submit", addingCardHandler)
+cardsContainer.addEventListener ("click", imagePopupHandler); 
 
+/*слушатели открытия форм*/
+addCardForm.addEventListener("submit", addingCardHandler)
 editButton.addEventListener("click", editProfileHandler);
 
 /*добавление валидации полям форм*/
