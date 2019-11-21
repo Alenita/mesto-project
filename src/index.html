@@ -10,7 +10,7 @@
 <body>
   <div class="root">
     <header class="header root__section">
-      <img src="./images/logo.svg" alt="mesto logo" class="logo">
+      <img src="<%=require('./images/logo.svg')%>" alt="mesto logo" class="logo">
     </header>
     <div class="profile root__section">
       <div class="user-info">
@@ -21,9 +21,9 @@
         </div>
         <button class="button_small edit__button">Edit</button>
         <button class="button user-info__button">
-          <svg width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
+         <!-- <svg width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M22 9.778h-9.778V0H9.778v9.778H0v2.444h9.778V22h2.444v-9.778H22V9.778z" fill="#fff"/>
-          </svg>
+          </svg>-->
         </button>
       </div>
     </div>
@@ -32,7 +32,7 @@
     </div>
     <div class="popup">
       <div class="popup__content">
-        <img src="./images/close.svg" alt="" class="popup__close">
+        <img src="<%=require('./images/close.svg')%" alt="" class="popup__close">
         <h3 class="popup__title">Новое место</h3>
         <form class="popup__form form" name="new" novalidate>
             <input 
@@ -54,9 +54,9 @@
             placeholder="Ссылка на картинку">
             <span id = "error-place-link" class = "popup__error"></span>
             <button id = "card-button" type="submit" class="button popup__button">
-                <svg width="22" height="23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!--<svg width="22" height="23" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path opacity=".2" d="M22 10.187h-9.778V.38H9.778v9.807H0v2.452h9.778v9.808h2.444v-9.808H22v-2.452z" fill="#000"/>
-                </svg>
+                </svg>-->
             </button>
         </form> 
       </div>
@@ -64,7 +64,7 @@
 
     <div class="popup popup-edit">
       <div class="popup-edit__content">
-        <img src="./images/close.svg" alt="" class="popup__close">
+        <img src="<%=require('./images/close.svg')%" alt="" class="popup__close">
         <h3 class="popup__title">Редактировать профиль</h3>
         <form class="popup-edit__form form" novalidate name="about">
             <input 
@@ -92,7 +92,7 @@
 
     <div class="popup popup-img">  
       <div class = "popup-img__content">
-        <img src = "./images/close.svg" alt="" class="popup__close">
+        <img src = "<%=require('./images/close.svg')%" alt="" class="popup__close">
         <img src = "" class="popup__image" alt = "Здесь должна быть картинка">
       </div>
     </div>
