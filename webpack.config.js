@@ -1,7 +1,7 @@
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');// подключаем path к конфигу вебпак
 const MiniCssExtractPlugin = require("mini-css-extract-plugin"); // Подключили к проекту плагин
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackMd5Hash = require('webpack-md5-hash');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 // подключаем плагин
