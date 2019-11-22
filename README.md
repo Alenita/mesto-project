@@ -40,7 +40,7 @@ npm run dev
 Открыть страницу можно по [ссылке] (https://alenita.github.io/mesto-project/) или из репозитория, собрав командами 
 ```
 npm run build
-npm run dev```
+npm run dev
 
 
 >>>>>>> bugs
