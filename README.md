@@ -24,10 +24,10 @@ export class Api {
     getAllInfo() {
       return Promise.all([this.getInfo(), this.getInitialCards()]);
     }
-``` 
+
 
 Последняя актуальная версия *v0.0.5*
 Открыть страницу можно по [ссылке] (https://alenita.github.io/mesto-project/) или из репозитория, собрав командами 
 ```
 npm run build
-npm run dev```
+npm run dev
