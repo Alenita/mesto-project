@@ -52,13 +52,14 @@ module.exports = {
             },
 
             {
-            test: /\.(eot|svg|ttf|woff|woff2)$/, // для работы со шрифтами
+            test: /\.(eot|ttf|woff|woff2)$/, // для работы со шрифтами
             use: [
                     {
                         loader: 'file-loader?name=./vendor/fonts/[name].[ext]'
                     }
                 ]
-            }
+            },
+
 
             ]
         },

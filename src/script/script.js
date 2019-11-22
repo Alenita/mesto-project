@@ -32,21 +32,16 @@ api.getAllInfo()
 
 const userName = document.querySelector(".user-info__name");
 const userInfo = document.querySelector(".user-info__job");
-
 const cardsContainer = document.querySelector(".places-list");
-
 const addCardPopup = document.querySelector(".popup");
 const cardButton = document.querySelector("#card-button");
 const addCardForm = document.forms.new;
-
 const editProfilePopup = document.querySelector(".popup-edit");
 const editButton = document.querySelector("#edit-button");
 const editAboutForm = document.forms.about;
 const formName = editAboutForm.elements.naming;
 const formInfo = editAboutForm.elements.info;
-
 const cardList = new CardList(document.querySelector(".places-list"));
-
 const popupPlace = new Popup(document.querySelector(".popup"));
 const popupEdit = new Popup(document.querySelector(".popup-edit"));
 const popupImage = new Popup(document.querySelector(".popup-img"));
